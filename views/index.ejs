@@ -1,0 +1,13 @@
+<%- include('layout-header', { title : 'Index' }) %> 
+
+    <button onclick="chatNow()" >
+        CHAT NOW
+    </button>
+
+    <script>
+        const chatNow = () => {
+            location.href = "http://localhost:3000/chat-now";
+        }
+    </script>
+
+<%- include('layout-footer') %> 

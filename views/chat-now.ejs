@@ -1,0 +1,34 @@
+<%- include('layout-header', { title : 'Chat Box' }) %> 
+
+    <style>
+        #chats {
+            background-color: palegreen;
+        }
+        #chats > div {
+            color: yellow;
+            background-color: black;
+        }
+    </style>
+
+    <h1>CHAT HERE</h1>
+    <input type="text" id="msg">
+    <input type="button" value="send" onclick="sendMessage()" > 
+    <div id="chats">
+
+    </div>   
+
+    <script>
+
+        const socket = io('http://localhost:3000/');
+        socket.on('connection');
+        socket.on('message' ,  data => {
+            document.getElementById('chats').innerHTML += "<div>" + data +"</div>";
+        });
+        const sendMessage = () => {
+            let msg = document.getElementById('msg').value;
+            socket.emit('sendMessage' , msg)
+        }
+
+    </script>
+
+<%- include('layout-footer') %> 
