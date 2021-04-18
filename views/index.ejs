@@ -1,12 +1,28 @@
 <%- include('layout-header', { title : 'Index' }) %> 
 
+    <input id="username" type="text" placeholder="Username" required >
     <button onclick="chatNow()" >
         CHAT NOW
     </button>
 
     <script>
         const chatNow = () => {
-            location.href = "http://localhost:3000/chat-now";
+            const username = document.getElementById('username').value;
+            fetch( "http://localhost:3000/" , {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify( { username : username } ),
+            })
+            .then( res => {
+                if( res.status === 200 ){
+                    location.href = "http://localhost:3000/search";
+                } else{
+                    console.log(res);
+                }
+            })
+            .catch( e => console.log(e) )
         }
     </script>
 

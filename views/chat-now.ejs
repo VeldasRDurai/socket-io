@@ -8,22 +8,35 @@
             color: yellow;
             background-color: black;
         }
+        #chat-box{
+            display: none;
+        }
     </style>
 
-    <h1>CHAT HERE</h1>
-    <input type="text" id="msg">
-    <input type="button" value="send" onclick="sendMessage()" > 
-    <div id="chats">
-
-    </div>   
-
+    <h1> <%= username %> CHAT WITH </h1>
+    <h3 id="chatWith" ><%= chatWith %></h3>
+    <div id="chatBox" >
+        <input type="text" id="msg">
+        <input type="button" value="send" onclick="sendMessage()" > 
+        <div id="chats"></div>  
+    </div> 
+    <input id="chatNow" type="button" value="Chat NOW" onclick="createRoom()" />
     <script>
 
         const socket = io('http://localhost:3000/');
         socket.on('connection');
+        socket.on('invite', function(data) {
+            socket.emit("joinRoom",data);
+        });
         socket.on('message' ,  data => {
             document.getElementById('chats').innerHTML += "<div>" + data +"</div>";
         });
+        const createRoom = () => {
+            const chatWith = document.getElementById('chatWith').innerText ;
+            socket.emit('create', { chatWith: chatWith });
+            document.getElementById('chatBox').style.display = 'block';
+            document.getElementById('chatNow').style.display = 'none' ;
+        }
         const sendMessage = () => {
             let msg = document.getElementById('msg').value;
             socket.emit('sendMessage' , msg)

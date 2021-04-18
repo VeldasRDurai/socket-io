@@ -1,0 +1,37 @@
+<%- include('layout-header', { title : 'Search' }) %> 
+
+    <h1> <%= username %> </h1>
+
+    <input id="search-txt" type="text" placeholder="search" >
+    <input type="button" value="find" onclick="findUsers()" >
+
+    <div id="result" ></div>
+
+    <script>
+        
+        const findUsers = () => {
+            const search = document.getElementById('search-txt').value;
+            fetch( "http://localhost:3000/search" , {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify( { search : search } ),
+            })
+            .then( data => data.json() )
+            .then( res => {
+                let append = "";
+                for( let i =0 ; i< res.userList.length ; i++ ){
+                    append += "<div onclick='chatNow(this)' >" + res.userList[i].username + "</div>" ;
+                }
+                document.getElementById('result').innerHTML = append ;
+            })
+            .catch( e => console.log(e) )
+        }
+        const chatNow = (e) => {
+            // console.log(e.innerText);
+            location.href = "http://localhost:3000/chat-now/"+e.innerText;
+        }
+    </script>
+
+<%- include('layout-footer') %> 
