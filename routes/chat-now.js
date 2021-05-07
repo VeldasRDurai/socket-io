@@ -15,6 +15,24 @@ module.exports = () => {
         io.on('connection' , async ( socket ) => {
             console.log("User connected : " + socket.id );
             await users.updateOne({ username : req.cookies['username'] }, {socketId:socket.id});
+            
+            // console.log(socket.client);
+            // const cookie = require("cookie");
+            // console.log( cookie.parse(socket.request.headers.cookie || "") );
+            // console.log(socket.handshake);
+            // socket.use()
+            // socket.send()
+            // socket.emit()
+            // socket.on() , .once() , .removeListener() , .removeAllListener() , 
+            // socket.onAny() , .prependAny() , .offAny() , .listenersAny() , 
+            
+            // console.log(socket.rooms);
+            // socket.join(room)
+            // socket.leave(room)
+            // socket.to(room)
+            // socket.except(room)
+
+            // socket.disconnect(true)
 
             socket.on('create', function(data) {
                 const room = req.cookies['username'] + "CHATS" + data.chatWith;
